@@ -12,8 +12,8 @@ return elements in Last In First Out order.
 """
 class Stack:
     def __init__(self):
-        self.size = 0
-        # self.storage = ?
+        self.size = len(self.storage)
+        self.storage = []
 
     def __len__(self):
         pass
