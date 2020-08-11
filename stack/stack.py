@@ -74,6 +74,7 @@ class LinkedStack:
         else:
             return 'LinkedStack error'
 
+
 ls = LinkedStack()
 
 ls.add_to_tail(7)
