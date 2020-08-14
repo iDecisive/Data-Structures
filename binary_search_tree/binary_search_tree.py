@@ -15,55 +15,109 @@ class BSTNode:
         self.left = None
         self.right = None
 
-    # Insert the given value into the tree
+    # Insert the given value into the tree ----- what about accounting for dupes?
     def insert(self, value):
-        pass
+        #check if value is less than this node's value
+        if value < self.value:
+            #does current node have a left child? If so, try the same method on it instead
+            if self.left != None:
+                self.left.insert(value)
+            #otherwise (if there is space there), set self.left to the new node
+            else:
+                self.left = BSTNode(value)
+        #now, since the value is greater than or equal to the current node's we'll look to the right
+        else:
+            if self.right != None:
+                self.right.insert(value)
+            else:
+                self.right = BSTNode(value)
+
 
     # Return True if the tree contains the value
     # False if it does not
     def contains(self, target):
-        pass
+        #Does the current node == target?
+        if target == self.value:
+            return True
+        #else, check if target is greater or less than the target and use recurrsion appropriately
+        elif target > self.value and self.right != None:
+            return self.right.contains(target)
+        elif target < self.value and self.left != None:
+            return self.left.contains(target)
+        #else, it's not here buddy
+        else:
+            return False
 
     # Return the maximum value found in the tree
     def get_max(self):
-        pass
+        if self.right != None:
+            return self.right.get_max()
+        else:
+            return self.value
 
     # Call the function `fn` on the value of each node
     def for_each(self, fn):
-        pass
+        fn(self.value)
+        if self.right != None:
+            self.right.for_each(fn)
+        if self.left != None:
+            self.left.for_each(fn)
 
     # Part 2 -----------------------
 
     # Print all the values in order from low to high
     # Hint:  Use a recursive, depth first traversal
     def in_order_print(self):
-        pass
+        if self.left != None:
+            self.left.in_order_print()
+        print(self.value)
+        if self.right != None:
+            self.right.in_order_print()
+
 
     # Print the value of every node, starting with the given node,
     # in an iterative breadth first traversal
     def bft_print(self):
-        pass
+
+        from collections import deque
+
+        q = deque()
+        q.append(self)
+        
+        while len(q) > 0:
+            current_node = q.popleft()
+
+            #check if node has children
+            if current_node.left:
+                q.append(current_node.left)
+            if current_node.right:
+                q.append(current_node.right)
+            print(current_node.value)
 
     # Print the value of every node, starting with the given node,
     # in an iterative depth first traversal
     def dft_print(self):
-        pass
+        print(self.value)
+        if self.left != None:
+            self.left.dft_print()
+        if self.right != None:
+            self.right.dft_print()
 
     # Stretch Goals -------------------------
     # Note: Research may be required
 
     # Print Pre-order recursive DFT
-    def pre_order_dft(self):
-        pass
+    # def pre_order_dft(self):
+    #     pass
 
     # Print Post-order recursive DFT
-    def post_order_dft(self):
-        pass
+    # def post_order_dft(self):
+    #     pass
 
 """
 This code is necessary for testing the `print` methods
 """
-bst = BinarySearchTree(1)
+bst = BSTNode(1)
 
 bst.insert(8)
 bst.insert(5)
@@ -76,10 +130,10 @@ bst.insert(2)
 bst.bft_print()
 bst.dft_print()
 
-print("elegant methods")
-print("pre order")
-bst.pre_order_dft()
-print("in order")
-bst.in_order_dft()
-print("post order")
-bst.post_order_dft()  
+# print("elegant methods")
+# print("pre order")
+# bst.pre_order_dft()
+# print("in order")
+# bst.in_order_dft()
+# print("post order")
+# bst.post_order_dft()  
